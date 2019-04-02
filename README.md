@@ -92,16 +92,116 @@ module.exports = {
 }
 ```
 
-### plugin
+로더를 사용하기 위해서는 npm으로 설치가 필요
 
-## CSS
+      $ npm i --save-dev babel-loader babel-core babel-preset-env
+      
+      
+#### css-loader, style-loader
+CSS 파일도 자바스크립트로 변환해서 로딩해야하는데, 이 역할을 `css-loader`가 해당 역할을 수행
+```js
+// 변환된 CSS 파일의 형태
+exports.push([module.i, "body {\n background-color: green;\n}\n", ""]);
+```
+
 필요한 모듈은 `css-loader`와 `style-loader`
 
     npm install --save-dev css-loader style-loader
   
-* `css-loader` : 
-* `style-loader` : 
+* `css-loader` : CSS 파일을 자바스크립트로 변환해서 로딩
+* `style-loader` : 자바스크립트로 변경된 스타일시트를 동적으로 돔에 추가하는 로더
 
+보통 CSS를 번들링하기 위해 `css-loader`, `style-loader`를 함께 사용
+
+```js
+// webpack.config.js
+module.exports = {
+   module: {
+      rules: [{
+         test: /\.css/,
+         use: ['style-loader', 'css-loader'],
+      }]
+   }
+}
+```
+
+```css
+body {
+   background-color: green;
+}
+```
+
+### plugin
+
+로더는 파일 단위로 처리를 하고, 플러그인은 번들된 결과물을 처리
+* 번들된 자바스크립트 난독화
+* 특정 텍스트 추출
+
+#### UglifyJsPlugin
+로더로 처리된 자바스크립트 결과물을 난독화 처리하는 플러그인
+```js
+const webpack = require('webpack')
+
+module.exports = {
+   plugins: [
+      new webpack.optimize.UglifyJsPlugin(),
+   ]
+}
+```
+
+#### ExtractTextPlugin
+* CSS 전처리기인 SASS를 사옹하려면, `sass-loader`를 추가하면 됨
+* SASS 파일이 커져서 분리해야 한다면 `style.css` 파일로 따로 번들링이 필요, 이 때 `extract-text-webpack-plugin` 사용
+
+```js
+// webpack.config.js
+module.exports = {
+   module: {
+      rules: [{
+         test: /\.scss$/,
+         use: ['style-loader', 'css-loader', 'sass-loader']
+      }]
+   }
+}
+```
+
+```scss
+// src/style.scss
+$bg-color: green;
+
+body {
+   background-color: $bg-color;
+}
+```
+
+```js
+src/main.js
+import Utils from './Utils'
+require('./style.scss')       // sass 로딩
+Utils.log('Hello, Webpack')
+```
+
+```js
+// webpack.config.js
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+module.exports = {
+   module: {
+      rules: [{
+         test: /\.scss$/,
+         use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader']
+         }),
+      }]
+   },
+   plugins: [
+      new ExtractTextPlugin('style.css')
+   ]
+}
+```
+
+* `plugins` 배열에 `new ExtractTextPlugin('style.css')`를 추가해서 `style.css`로 번들링
 
 ***
 ## 참고링크
