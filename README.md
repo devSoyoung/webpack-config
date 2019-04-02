@@ -106,7 +106,7 @@ exports.push([module.i, "body {\n background-color: green;\n}\n", ""]);
 
 필요한 모듈은 `css-loader`와 `style-loader`
 
-    npm install --save-dev css-loader style-loader
+      $ npm install --save-dev css-loader style-loader
   
 * `css-loader` : CSS 파일을 자바스크립트로 변환해서 로딩
 * `style-loader` : 자바스크립트로 변경된 스타일시트를 동적으로 돔에 추가하는 로더
