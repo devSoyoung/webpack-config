@@ -30,19 +30,21 @@ html 파일에서 로딩할 자바스크립트 파일의 시작점, 여기에서
 하나로 번들된 결과물을 저장할 위치
 ```js
 // webpack.config.js
+const path = require(`path`);
+
 module.exports = {
     // ...
     output: {
-        filename: 'bundle.js',
-        path: './dist',
+        filename: 'main.js',
+        path: path.resolve(__dirname, `dist`),
     },
 }
 ```
-`dist` 폴더의 `bundle.js` 파일로 결과를 저장, html 파일에서는 `bundle.js`를 로딩해서 사용
+`dist` 폴더의 `main.js` 파일로 결과를 저장, html 파일에서는 `main.js`를 로딩해서 사용
 
 ```html
 <body>
-    <script src="./dist/bundle.js"></script>
+    <script src="./dist/main.js"></script>
 </body>
 ```
 
@@ -62,7 +64,7 @@ export default class Utils {
 
 작성한 코드를 바탕으로 웹팩을 빌드하고 싶다면 `webpack` 커맨드로 실행하면 됨
 
-    $ webpack
+    $ npx webpack
 
 ### loader
 웹팩은 모든 자원을 모듈로 인식하지만, 자바스크립트밖에 모르기 때문에 비 자바스크립트 파일을 웹팩이 이해하게끔 변경해주는 역할을 로더가 수행
