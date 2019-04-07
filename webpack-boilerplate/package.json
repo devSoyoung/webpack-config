@@ -1,0 +1,23 @@
+{
+    "name": "webpack-boilerplate",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "cleanup": "rm -rf dist && mkdir dist",
+        "build": "./node_modules/.bin/webpack --mode=none",
+        "build:watch": "./node_modules/.bin/webpack --mode=none --watch",
+        "lint": "./node_modules/.bin/eslint"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.4.3",
+        "@babel/preset-env": "^7.4.3",
+        "babel-loader": "^8.0.5",
+        "css-loader": "^2.1.1",
+        "style-loader": "^0.23.1",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.3.0"
+    }
+}
